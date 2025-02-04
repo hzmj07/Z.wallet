@@ -12,7 +12,7 @@ export default function AuthLayout() {
       />
 
       <Stack.Screen
-        name="registar" // app/(auth)/login.js dosyasına karşılık gelir
+        name="verification" // app/(auth)/login.js dosyasına karşılık gelir
         options={{ headerShown: false }} // Başlık çubuğunu gizle
       />
     </Stack>

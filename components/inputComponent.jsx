@@ -3,8 +3,8 @@ import React from 'react'
 
 const inputComponent = ( {placeholder , title , setVAlue , value }) => {
   return (
-    <View className="h-28 justify-center mt-4 ">
-    <Text className=" font-bold text-[18px] mb-2 ml-4">{title}</Text>
+    <View className="h-28 justify-center  ">
+   {title && <Text className=" font-bold text-[18px] mt-4  ml-4">{title}</Text>}
     <TextInput
     value={value}
     onChange={setVAlue}

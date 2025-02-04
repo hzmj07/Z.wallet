@@ -116,7 +116,7 @@ const AuthPage = () => {
             <View className="h-full w-full  rounded-t-[20px] pt-8 items-center bg-[rgba(204,204,204,0.76)]">
               {/* Tab Bileşeni */}
               <TabSwitcher onTabChange={setSelectedTab} />
-
+    
               {/* Form Alanı */}
               <View className="h-3/5 w-5/6 justify-start mt-10">
                 {selectedTab === 0 ? (
@@ -174,7 +174,7 @@ const AuthPage = () => {
                           onPress={() => {
                             setisOpenSelectCont(true);
                           }}
-                          className="h-16 w-24 bg-white rounded-3xl  items-center  justify-center text-[15px] pl-4 pr-4 border-[1px] flex-row mb-1 mr-1 "
+                          className="h-16 w-24 bg-white rounded-3xl  items-center  justify-center text-[15px] pl-4 pr-4 border-[1px] flex-row mr-1 "
                         >
                           <Text> {contry.code || null}</Text>
                         </TouchableOpacity>
@@ -189,7 +189,7 @@ const AuthPage = () => {
                     <View className="w-full items-end mt-3">
                       <TouchableOpacity className="h-14 w-14 bg-MainBG rounded-2xl border justify-center items-center mt-4">
                         <AntDesign
-                          onPress={() => router.push("/registar")}
+                          onPress={() => router.push("/verification")}
                           name="arrowright"
                           size={24}
                           color="white"
