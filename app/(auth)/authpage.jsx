@@ -113,12 +113,12 @@ const AuthPage = () => {
           keyboardShouldPersistTaps="handled"
         >
           <View className="flex-1 justify-start">
-            <View className="h-full w-full  rounded-t-[20px] pt-8 items-center bg-[rgba(204,204,204,0.76)]">
+            <View className="h-full w-full  rounded-t-[20px] pt-8 pb-8 items-center bg-[rgba(204,204,204,0.76)]">
               {/* Tab Bileşeni */}
               <TabSwitcher onTabChange={setSelectedTab} />
-    
+              
               {/* Form Alanı */}
-              <View className="h-3/5 w-5/6 justify-start mt-10">
+              <View className="h-3/5 w-5/6 justify-start mt-10 ">
                 {selectedTab === 0 ? (
                   <>
                     <Input

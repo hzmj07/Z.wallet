@@ -19,6 +19,15 @@ const AuthPage = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const router = useRouter();
 
+  const verifi = async()=>{
+      //  gerekli istek sonrası loading ve navigation
+      console.log("navii");
+      
+      router.push("/regForm")
+
+  }
+
+
   return (
     <SafeAreaView className="flex-1 bg-MainBG">
       <View className="h-2/5 items-center justify-center">
@@ -35,9 +44,7 @@ const AuthPage = () => {
         >
           <View className="flex-1 justify-end">
             {/* Form Alanı */}
-
-            {selectedTab === 0 ? (
-              <View className="h-4/5 w-full  rounded-t-[20px] pt-8 items-center bg-[rgba(204,204,204,0.76)]">
+              <View className="h-4/5 w-full  rounded-t-[20px] pt-8 pb-16 items-center bg-[rgba(204,204,204,0.76)]">
                 <View className="flex-1 w-5/6  items-center">
                   <Text
                     onPress={() => console.log("fotgor")}
@@ -55,16 +62,13 @@ const AuthPage = () => {
                     <AntDesign name="arrowleft" size={24} color="black" />
                     </TouchableOpacity>
                     <View className="flex-1" ></View>
-                    <TouchableOpacity className="h-14 w-14 bg-MainBG rounded-2xl border justify-center items-center mt-4">
+                    <TouchableOpacity onPress={()=>verifi()} className="h-14 w-14 bg-MainBG rounded-2xl border justify-center items-center mt-4">
                     <AntDesign name="arrowright" size={24} color="white" />
                     </TouchableOpacity>
                     </View>
                   </View>
                 </View>
               </View>
-            ) : (
-              <View className="h-full w-full  rounded-t-[20px] pt-8 items-center bg-[rgba(204,204,204,0.76)]"></View>
-            )}
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>
