@@ -20,5 +20,15 @@ export default function MainLayout() {
         name="subscriptions" // app/(auth)/login.js dosyasına karşılık gelir
         options={{ headerShown: false }} // Başlık çubuğunu gizle
       />
+
+<Stack.Screen
+        name="settings" // app/(auth)/login.js dosyasına karşılık gelir
+        options={{ headerShown: false }} // Başlık çubuğunu gizle
+      />
+      
+<Stack.Screen
+        name="profile" // app/(auth)/login.js dosyasına karşılık gelir
+        options={{ headerShown: false }} // Başlık çubuğunu gizle
+      />
     </Stack>
   );}

@@ -5,14 +5,15 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  TouchableWithoutFeedback
 } from "react-native";
-import React from "react";
+import React ,{useState} from "react";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
-
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 const transactions = [
   {id:1, title: "Hazem Aljasem", prince: 150, date: "18 oct 2025", color: "red" },
   {id:2, title: "Hazem Aljasem", prince: 150, date: "18 oct 2025", color: "green" },
@@ -23,10 +24,12 @@ const transactions = [
 ];
 const home = () => {
   const router = useRouter();
+  const [isOpenSelectCont, setisOpenSelectCont] = useState(false);
+
   return (
     <View className="flex-1 bg-MainBG">
       <View className="w-full h-20  flex-row items-center justify-start pl-6 pr-6 mt-1">
-        <TouchableOpacity className="h-12 w-12 bg-white rounded-md mr-2 items-center justify-center">
+        <TouchableOpacity onPress={()=>setisOpenSelectCont(true)} className="h-12 w-12 bg-white rounded-md mr-2 items-center justify-center">
           <Feather name="more-vertical" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity className="h-12 w-12 bg-white rounded-md mr-2 items-center justify-center">
@@ -132,8 +135,43 @@ const home = () => {
           </TouchableOpacity>
         </View>
       </View>
+      {isOpenSelectCont &&
+          <TouchableWithoutFeedback onPress={() => {
+            setisOpenSelectCont(false);
+          }} >
+            <View
+            style={{
+              backgroundColor: "rgba(0, 0, 0, 0.4)",
+              position: "absolute",
+              flex: 1,
+              width: "100%",
+              height: "100%",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            padding:12
+
+            }}
+          >
+
+            <View className="bg-component w-full h-64 rounded-2xl mb-3 p-7" >
+              <TouchableOpacity onPress={()=>router.push("/profile")} className=" bg-white w-full h-16 rounded-xl border-[1px] flex-row items-center pl-4" >
+              <FontAwesome6 name="user-circle" size={26} color="black" />
+              <Text className="font-bold text-[18px] pl-4" >Account</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={()=>router.push("/settings")} className=" bg-white w-full h-16 rounded-xl border-[1px] flex-row items-center pl-4 mt-2" >
+              <Ionicons name="settings" size={26} color="black" />
+              <Text className="font-bold text-[18px] pl-4" >Settings</Text>
+              </TouchableOpacity>
+              <TouchableOpacity className=" bg-white w-full h-16 rounded-xl border-[1px] flex-row items-center pl-4 mt-2" >
+              <Entypo name="log-out" size={26} color="red" />
+              <Text className="font-bold text-[18px] pl-4 color-red-500" >Log-Out</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          </TouchableWithoutFeedback>
+        }
     </View>
-  );
+  ); 
 };
 
 export default home;
