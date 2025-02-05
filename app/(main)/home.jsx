@@ -127,7 +127,7 @@ const home = () => {
           <TouchableOpacity className="h-16 w-16 items-center justify-center mr-5">
             <Entypo name="home" size={24} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity className="h-16 w-16 items-center justify-center mr-5">
+          <TouchableOpacity onPress={()=>router.push("/findeUser")} className="h-16 w-16 items-center justify-center mr-5">
             <Feather name="send" size={24} color="black" />
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>router.push("/cards")} className="h-16 w-16 items-center justify-center">

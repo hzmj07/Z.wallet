@@ -18,8 +18,8 @@ const pagehead = ({title , dicreption}) => {
             <AntDesign name="arrowleft" size={24} color="black" />
           </TouchableOpacity>
         </View>
-        <Text className=" font-bold text-[24px] color-[#B7FF00] " >{title}</Text>
-        <Text className=" font-bold text-[10px] color-[#B7FF00] " >{dicreption || null}</Text>
+        <Text className=" font-bold  color-[#B7FF00] " style={{fontSize:24}} >{title}</Text>
+        <Text className=" font-bold  color-[#B7FF00] " style={{fontSize:16}} >{dicreption || null}</Text>
 
 
       </View>

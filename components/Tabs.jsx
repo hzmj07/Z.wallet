@@ -84,7 +84,7 @@ const TabSwitcher = ({ onTabChange }) => {
   );
 
   return (
-    <View className="w-[310px] bg-white h-20 rounded-full flex-row items-center justify-center">
+    <View className="w-[310px] bg-white h-20 flex-row items-center justify-center" style={{borderRadius:999}}>
       {renderTab(0, "Login", widthAnim1, bgColor1, textColor1)}
       {renderTab(1, "Register", widthAnim2, bgColor2, textColor2)}
     </View>

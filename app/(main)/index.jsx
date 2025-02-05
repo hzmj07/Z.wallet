@@ -30,5 +30,10 @@ export default function MainLayout() {
         name="profile" // app/(auth)/login.js dosyasına karşılık gelir
         options={{ headerShown: false }} // Başlık çubuğunu gizle
       />
+
+<Stack.Screen
+        name="findeUser" // app/(auth)/login.js dosyasına karşılık gelir
+        options={{ headerShown: false }} // Başlık çubuğunu gizle
+      />
     </Stack>
   );}
