@@ -35,5 +35,13 @@ export default function MainLayout() {
         name="findeUser" // app/(auth)/login.js dosyasına karşılık gelir
         options={{ headerShown: false }} // Başlık çubuğunu gizle
       />
+      <Stack.Screen
+        name="accountverification" // app/(auth)/login.js dosyasına karşılık gelir
+        options={{ headerShown: false }} // Başlık çubuğunu gizle
+      />
+      <Stack.Screen
+        name="averification" // app/(auth)/login.js dosyasına karşılık gelir
+        options={{ headerShown: false }} // Başlık çubuğunu gizle
+      />
     </Stack>
   );}

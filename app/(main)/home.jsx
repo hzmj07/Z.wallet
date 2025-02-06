@@ -32,7 +32,7 @@ const home = () => {
         <TouchableOpacity onPress={()=>setisOpenSelectCont(true)} className="h-12 w-12 bg-white rounded-md mr-2 items-center justify-center">
           <Feather name="more-vertical" size={24} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity className="h-12 w-12 bg-white rounded-md mr-2 items-center justify-center">
+        <TouchableOpacity onPress={()=>router.push("/accountverification")} className="h-12 w-12 bg-white rounded-md mr-2 items-center justify-center">
           <FontAwesome name="check" size={24} color="black" />
         </TouchableOpacity>
         <View className="h-full flex-1  flex-row  justify-end items-center">

@@ -2,7 +2,7 @@ import {  Text, View  , TouchableOpacity} from 'react-native'
 import React from 'react'
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-const Nodata = ({title , explanation}) => {
+export const Nodata = ({title , explanation}) => {
   return (
     <View className=" w-full  rounded-t-[20px] p-16 items-center bg-[rgba(204,204,204,0.76)]">
                 <View className="h-24 w-full justify-center">
@@ -22,5 +22,5 @@ const Nodata = ({title , explanation}) => {
   )
 }
 
-export default Nodata
+
 
