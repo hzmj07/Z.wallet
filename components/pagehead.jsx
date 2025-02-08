@@ -7,7 +7,7 @@ const pagehead = ({title , dicreption}) => {
     const router = useRouter();
 
   return (
-<View className="h-44 pt-8 items-start justify-strat pl-8">
+<View className="h-44 pt-8 items-start justify-strat pl-8 mb-6">
         <View className="w-full h-20 ">
           <TouchableOpacity
             onPress={() => {
