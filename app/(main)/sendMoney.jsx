@@ -93,7 +93,7 @@ const AuthPage = () => {
                     </View>
                   ) : (
                     <View className="w-full h-[500px]  rounded-t-[20px] p-16  items-center   bg-[rgba(204,204,204,0.76)] ">
-                      <View className="h-[350px] bg-white w-full rounded-lg mb-6 border-[1px]  justify-start items-center">
+                      <View className="h-[350px] bg-white w-full rounded-2xl mb-6 border-[1px] pl-4 pr-4 justify-start items-center">
                         <View className="h-28 w-full rounded-2xl mb-3 items-center justify-start pl-6 flex-row ">
                           <View className="bg-[#B7FF00] h-16 w-16 rounded-full mr-6 "></View>
                           <Text className="font-bold" style={{ fontSize: 22 }}>

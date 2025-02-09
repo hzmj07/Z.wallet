@@ -29,10 +29,10 @@ const home = () => {
   return (
     <View className="flex-1 bg-MainBG">
       <View className="w-full h-20  flex-row items-center justify-start pl-6 pr-6 mt-1">
-        <TouchableOpacity onPress={()=>setisOpenSelectCont(true)} className="h-12 w-12 bg-white rounded-md mr-2 items-center justify-center">
+        <TouchableOpacity onPress={()=>setisOpenSelectCont(true)} className="h-12 w-12 bg-white rounded-xl mr-2 items-center justify-center">
           <Feather name="more-vertical" size={24} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>router.push("/accountverification")} className="h-12 w-12 bg-white rounded-md mr-2 items-center justify-center">
+        <TouchableOpacity onPress={()=>router.push("/accountverification")} className="h-12 w-12 bg-white rounded-xl mr-2 items-center justify-center">
           <FontAwesome name="check" size={24} color="black" />
         </TouchableOpacity>
         <View className="h-full flex-1  flex-row  justify-end items-center">
@@ -48,7 +48,7 @@ const home = () => {
       </View>
 
       <View className=" w-full h-72 p-4">
-        <View className="flex-1 bg-white rounded-lg p-5">
+        <View className="flex-1 bg-white rounded-2xl p-5">
           <View className="w-full h-9 border-b-[1px] flex-row">
             <Image
               className="h-[23px] w-[32px] ml-2  mr-4 rounded-md"
@@ -62,13 +62,13 @@ const home = () => {
               <Text className="font-bold text-[25px]">SY 300</Text>
             </View>
             <View className="h-20   bottom-0 flex-row justify-center items-center">
-              <TouchableOpacity className="h-10 bg-MainBG pl-6 pr-6 items-center mr-10 rounded-md flex-row">
+              <TouchableOpacity className="h-10 bg-MainBG pl-6 pr-6 items-center mr-10 rounded-xl flex-row">
                 <Ionicons name="push-outline" size={20} color="#B7FF00" />
                 <Text className="font-bold text-[16px] color-[#B7FF00] ml-2">
                   Deposit
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity className="h-10 bg-MainBG pl-6 pr-6 items-center  rounded-md flex-row">
+              <TouchableOpacity className="h-10 bg-MainBG pl-6 pr-6 items-center  rounded-xl flex-row">
                 <Ionicons name="download-outline" size={20} color="#B7FF00" />
                 <Text className="font-bold text-[16px] color-[#B7FF00]  ml-2">
                   Withdraw
@@ -85,17 +85,17 @@ const home = () => {
           </Text>
           <Ionicons name="arrow-forward-outline" size={20} color="white" />
         </View>
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="">
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }} className="">
           {transactions.map( item =>{
             return(
-              <View key={item.id} className="h-20 w-full bg-white  rounded-lg mb-3 items-center  pl-4 pr-4 flex-row">
+              <View key={item.id} className="h-24 w-full bg-white  rounded-xl mb-3 items-center  pl-4 pr-4 flex-row">
             <Image
               className="h-14 w-14  "
               source={require("../../assets/profile.png")}
             />
             <Text className="font-bold text-[20px] ml-6">{item.title}</Text>
             <View className="flex-1  h-full items-end justify-center pr-2 ">
-              <Text className=" color-red-600 font-bold text-[20px]">{item.prince}</Text>
+              <Text style={{color:item.color}} className=" font-bold text-[20px]">{item.prince}</Text>
               <Text>{item.date}</Text>
             </View>
           </View>
@@ -104,18 +104,17 @@ const home = () => {
         </ScrollView>
       </View>
 
-      <View className=" w-full h-40">
+      <View className=" w-full h-44">
         <View className="h-10 w-full  justify-start pl-6 flex-row items-center">
           <Text className="font-bold text-[16px] color-white pr-2">
           Contracted banks
           </Text>
           <Ionicons name="arrow-forward-outline" size={20} color="white" />
         </View>
-        <ScrollView horizontal={true} contentContainerStyle={{ flexGrow: 1 }} className="">
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 , alignItems:"center" }} >
           {transactions.map( item =>{
             return(
-              <View key={item.id} className="h-28 w-28 bg-white mr-1 ml-1 rounded-lg mb-3 items-center  pl-4 pr-4 flex-row">
-           
+              <View key={item.id} className="h-32 w-32 bg-white m-2 items-center rounded-3xl pl-4 pr-4 flex-row">
           </View>
             )
           })}

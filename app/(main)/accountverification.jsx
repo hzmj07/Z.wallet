@@ -16,17 +16,28 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
 import Checkbox from 'expo-checkbox';
 import Pagehead from "../../components/pagehead";
+import * as DocumentPicker from 'expo-document-picker';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 const AuthPage = () => {
-  const [isSelected, setSelection] = useState();
   const router = useRouter();
-
-  const verifi = async()=>{
-      //  gerekli istek sonrası loading ve navigation
-      console.log("navii");
+  const [File, setFile] = useState()
+  const pickDocument = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: ['image/png', 'image/jpeg'], // Tüm dosya türlerine izin verir
+      });
+      console.log(result);
       
-      router.push("/regForm")
-
-  }
+      if (result.canceled === false) {
+        setFile(result);
+        console.log('Seçilen dosya:', result);
+      } else {
+        console.log('Dosya seçme iptal edildi.');
+      }
+    } catch (error) {
+      console.error('Dosya seçme hatası:', error);
+    }
+  };
 
 
   return (
@@ -47,8 +58,17 @@ const AuthPage = () => {
               <View className=" w-full justify-start mt-4">                  
                 <View className="h-28 justify-end ">
                     <Text className=" font-bold text-[18px] mt-4  ml-4">Photo*</Text>
-                    <View className="w-24 h-24 bg-white rounded-2xl  items-center text-[15px] pl-4 border-[1px] "
- ></View>
+                    <View className=" flex-row items-center" >
+                    <TouchableOpacity onPress={()=>pickDocument()} className="w-24 h-24 bg-white rounded-2xl  items-center justify-center text-[15px] border-[1px] ">
+                    {File  ? <Image
+                    className="w-20 h-20 rounded-full "
+                    source={{ uri: File.assets[0].uri }}
+                  />  : <MaterialIcons name="account-circle" size={40} color="black" /> }
+                    </TouchableOpacity>
+                   {File &&  <TouchableOpacity onPress={()=>setFile(null)} className="bg-white h-4/6 w-10 rounded-xl ml-3 border items-center justify-center " >
+                    <MaterialIcons name="cancel" size={24} color="red" />
+                    </TouchableOpacity>}
+                    </View>
                   </View>
                   <Input placeholder="National Identity Number" title="National Identity Number*" type={"numeric"} />
                   <Input placeholder="Age" title="Enter age*" type={"numeric"} />
