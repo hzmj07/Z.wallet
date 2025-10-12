@@ -3,7 +3,7 @@ import { Slot, Redirect } from "expo-router"; // Slot ve Redirect bileşenlerini
 
 // userLogin işlemleri yapılacak
 const UserNavi = () => {
-  return <Redirect href="/(main)/home"/>
+  return <Redirect href="/(auth)/authpage"/>
 }
 
 export default UserNavi

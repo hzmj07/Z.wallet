@@ -1,251 +1,547 @@
-import React, { useEffect, useRef, useState } from "react";
 import {
+  StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  Keyboard,
-  TouchableWithoutFeedback,
-  SafeAreaView,
   ScrollView,
-  Animated,
-  Image,
+  StatusBar,
+  TextInput,
+  Modal,
   FlatList,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
-import Input from "../../components/inputComponent";
-import TabSwitcher from "../../components/Tabs";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import { useRouter } from "expo-router";
+import React, { useState } from "react";
+import { LinearGradient } from 'expo-linear-gradient';
+import { BlurView } from 'expo-blur';
+import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { useRouter } from "expo-router";
+const countries = [
+  { name: "Afghanistan", code: "+93", flag: "🇦🇫" },
+  { name: "Albania", code: "+355", flag: "🇦🇱" },
+  { name: "Algeria", code: "+213", flag: "🇩🇿" },
+  { name: "Syria", code: "+963", flag: "🇸🇾" },
+  { name: "Turkey", code: "+90", flag: "🇹🇷" },
+  { name: "United Arab Emirates", code: "+971", flag: "🇦🇪" },
+  { name: "United States", code: "+1", flag: "🇺🇸" },
+  { name: "United Kingdom", code: "+44", flag: "🇬🇧" },
+  // Add more countries as needed
+];
+
 const AuthPage = () => {
-  const [selectedTab, setSelectedTab] = useState(0);
   const router = useRouter();
+  const [selectedTab, setSelectedTab] = useState(0);
+  
+  // Login states
   const [loginPhoneNum, setLoginPhoneNum] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [contry, setcontry] = useState({ name: "Syria", code: "+963", flag: "🇸🇾" });
-  const [registerName, setRegisterName] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  
+  // Register states
   const [registerPhoneNum, setRegisterPhoneNum] = useState("");
-  const [isOpenSelectCont, setisOpenSelectCont] = useState(false);
-  const countries = [
-    { name: "Afghanistan", code: "+93", flag: "🇦🇫" },
-    { name: "Albania", code: "+355", flag: "🇦🇱" },
-    { name: "Algeria", code: "+213", flag: "🇩🇿" },
-    { name: "Andorra", code: "+376", flag: "🇦🇩" },
-    { name: "Angola", code: "+244", flag: "🇦🇴" },
-    { name: "Argentina", code: "+54", flag: "🇦🇷" },
-    { name: "Armenia", code: "+374", flag: "🇦🇲" },
-    { name: "Australia", code: "+61", flag: "🇦🇺" },
-    { name: "Austria", code: "+43", flag: "🇦🇹" },
-    { name: "Azerbaijan", code: "+994", flag: "🇦🇿" },
-    { name: "Bahrain", code: "+973", flag: "🇧🇭" },
-    { name: "Bangladesh", code: "+880", flag: "🇧🇩" },
-    { name: "Belarus", code: "+375", flag: "🇧🇾" },
-    { name: "Belgium", code: "+32", flag: "🇧🇪" },
-    { name: "Brazil", code: "+55", flag: "🇧🇷" },
-    { name: "Bulgaria", code: "+359", flag: "🇧🇬" },
-    { name: "Canada", code: "+1", flag: "🇨🇦" },
-    { name: "China", code: "+86", flag: "🇨🇳" },
-    { name: "Colombia", code: "+57", flag: "🇨🇴" },
-    { name: "Denmark", code: "+45", flag: "🇩🇰" },
-    { name: "Egypt", code: "+20", flag: "🇪🇬" },
-    { name: "Finland", code: "+358", flag: "🇫🇮" },
-    { name: "France", code: "+33", flag: "🇫🇷" },
-    { name: "Germany", code: "+49", flag: "🇩🇪" },
-    { name: "Greece", code: "+30", flag: "🇬🇷" },
-    { name: "Hungary", code: "+36", flag: "🇭🇺" },
-    { name: "India", code: "+91", flag: "🇮🇳" },
-    { name: "Indonesia", code: "+62", flag: "🇮🇩" },
-    { name: "Iran", code: "+98", flag: "🇮🇷" },
-    { name: "Iraq", code: "+964", flag: "🇮🇶" },
-    { name: "Ireland", code: "+353", flag: "🇮🇪" },
-    { name: "Italy", code: "+39", flag: "🇮🇹" },
-    { name: "Japan", code: "+81", flag: "🇯🇵" },
-    { name: "Kazakhstan", code: "+7", flag: "🇰🇿" },
-    { name: "Kenya", code: "+254", flag: "🇰🇪" },
-    { name: "Kuwait", code: "+965", flag: "🇰🇼" },
-    { name: "Lebanon", code: "+961", flag: "🇱🇧" },
-    { name: "Malaysia", code: "+60", flag: "🇲🇾" },
-    { name: "Mexico", code: "+52", flag: "🇲🇽" },
-    { name: "Morocco", code: "+212", flag: "🇲🇦" },
-    { name: "Netherlands", code: "+31", flag: "🇳🇱" },
-    { name: "New Zealand", code: "+64", flag: "🇳🇿" },
-    { name: "Nigeria", code: "+234", flag: "🇳🇬" },
-    { name: "Norway", code: "+47", flag: "🇳🇴" },
-    { name: "Palestine", code: "+970", flag: "🇵🇸" },
-    { name: "Pakistan", code: "+92", flag: "🇵🇰" },
-    { name: "Philippines", code: "+63", flag: "🇵🇭" },
-    { name: "Poland", code: "+48", flag: "🇵🇱" },
-    { name: "Portugal", code: "+351", flag: "🇵🇹" },
-    { name: "Qatar", code: "+974", flag: "🇶🇦" },
-    { name: "Romania", code: "+40", flag: "🇷🇴" },
-    { name: "Russia", code: "+7", flag: "🇷🇺" },
-    { name: "Saudi Arabia", code: "+966", flag: "🇸🇦" },
-    { name: "South Africa", code: "+27", flag: "🇿🇦" },
-    { name: "South Korea", code: "+82", flag: "🇰🇷" },
-    { name: "Spain", code: "+34", flag: "🇪🇸" },
-    { name: "Sweden", code: "+46", flag: "🇸🇪" },
-    { name: "Switzerland", code: "+41", flag: "🇨🇭" },
-    { name: "Syria", code: "+963", flag: "🇸🇾" },
-    { name: "Thailand", code: "+66", flag: "🇹🇭" },
-    { name: "Tunisia", code: "+216", flag: "🇹🇳" },
-    { name: "Turkey", code: "+90", flag: "🇹🇷" },
-    { name: "Ukraine", code: "+380", flag: "🇺🇦" },
-    { name: "United Arab Emirates", code: "+971", flag: "🇦🇪" },
-    { name: "United Kingdom", code: "+44", flag: "🇬🇧" },
-    { name: "United States", code: "+1", flag: "🇺🇸" },
-    { name: "Uzbekistan", code: "+998", flag: "🇺🇿" },
-    { name: "Vietnam", code: "+84", flag: "🇻🇳" },
-    { name: "Yemen", code: "+967", flag: "🇾🇪" },
-  ];
+  const [country, setCountry] = useState({ name: "Syria", code: "+963", flag: "🇸🇾" });
+  const [isCountryModalVisible, setIsCountryModalVisible] = useState(false);
+
+  const handleLogin = () => {
+    // Add your login logic here
+        router.push("/(main)/home");
+
+  };
+
+  const handleRegister = () => {
+    console.log("Register:", country.code + registerPhoneNum);
+    router.push("/verification");
+  };
 
   return (
-    <SafeAreaView className="flex-1 bg-MainBG">
-      <View className="h-2/5 items-center justify-center">
-        <Image
-          className="h-[100px] w-[213px]"
-          source={require("../../assets/Group.png")}
-        />
-      </View>
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
+      
+      {/* Gradient Background */}
+      <LinearGradient
+        colors={['#1a1a2e', '#16213e', '#0f3460']}
+        style={styles.gradient}
+      />
 
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboardView}
+      >
         <ScrollView
-          className="flex-1"
-          contentContainerStyle={{ flexGrow: 1 }}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
-          <View className="flex-1 justify-start">
-            <View className="h-full w-full  rounded-t-[20px] pt-8 pb-8 items-center bg-[rgba(204,204,204,0.76)]">
-              {/* Tab Bileşeni */}
-              <TabSwitcher onTabChange={setSelectedTab} />
-              
-              {/* Form Alanı */}
-              <View className="h-3/5 w-5/6 justify-start mt-10 ">
-                {selectedTab === 0 ? (
-                  <>
-                    <Input
-                      placeholder="Phone Number"
-                      title="Phone Number"
-                      setVAlue={setLoginPhoneNum}
+          {/* Logo Section */}
+          <View style={styles.logoSection}>
+            <LinearGradient
+              colors={['#6a11cb', '#2575fc']}
+              style={styles.logoContainer}
+            >
+              <Ionicons name="wallet-outline" size={48} color="#fff" />
+            </LinearGradient>
+            <Text style={styles.logoText}>SyrianPay</Text>
+            <Text style={styles.logoSubtext}>Secure Digital Banking</Text>
+          </View>
+
+          {/* Tab Switcher */}
+          <View style={styles.tabContainer}>
+            <TouchableOpacity
+              style={[styles.tab, selectedTab === 0 && styles.tabActive]}
+              onPress={() => setSelectedTab(0)}
+            >
+              <LinearGradient
+                colors={selectedTab === 0 ? ['#6a11cb', '#2575fc'] : ['transparent', 'transparent']}
+                style={styles.tabGradient}
+              >
+                <Text style={[styles.tabText, selectedTab === 0 && styles.tabTextActive]}>
+                  Login
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.tab, selectedTab === 1 && styles.tabActive]}
+              onPress={() => setSelectedTab(1)}
+            >
+              <LinearGradient
+                colors={selectedTab === 1 ? ['#6a11cb', '#2575fc'] : ['transparent', 'transparent']}
+                style={styles.tabGradient}
+              >
+                <Text style={[styles.tabText, selectedTab === 1 && styles.tabTextActive]}>
+                  Register
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+
+          {/* Form Section */}
+          <View style={styles.formContainer}>
+            {selectedTab === 0 ? (
+              // Login Form
+              <>
+                <View style={styles.inputGroup}>
+                  <Text style={styles.inputLabel}>Phone Number</Text>
+                  <View style={styles.inputWrapper}>
+                    <Ionicons name="call-outline" size={20} color="#8e8e93" style={styles.inputIcon} />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Enter phone number"
+                      placeholderTextColor="#8e8e93"
                       value={loginPhoneNum}
+                      onChangeText={setLoginPhoneNum}
+                      keyboardType="phone-pad"
                     />
-                    <Input
-                      placeholder="Password"
-                      title="Password"
-                      setVAlue={setLoginPassword}
+                  </View>
+                </View>
+
+                <View style={styles.inputGroup}>
+                  <Text style={styles.inputLabel}>Password</Text>
+                  <View style={styles.inputWrapper}>
+                    <Ionicons name="lock-closed-outline" size={20} color="#8e8e93" style={styles.inputIcon} />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Enter password"
+                      placeholderTextColor="#8e8e93"
                       value={loginPassword}
+                      onChangeText={setLoginPassword}
+                      secureTextEntry={!showPassword}
                     />
-                    <Text
-                      onPress={() => console.log("fotgor")}
-                      className=" text-right w-full font-bold mt-2"
+                    <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                      <Ionicons 
+                        name={showPassword ? "eye-outline" : "eye-off-outline"} 
+                        size={20} 
+                        color="#8e8e93" 
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                <TouchableOpacity style={styles.forgotPassword}>
+                  <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={handleLogin}>
+                  <LinearGradient
+                    colors={['#6a11cb', '#2575fc']}
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>Login</Text>
+                    <Ionicons name="arrow-forward" size={20} color="#fff" />
+                  </LinearGradient>
+                </TouchableOpacity>
+              </>
+            ) : (
+              // Register Form
+              <>
+                <View style={styles.inputGroup}>
+                  <Text style={styles.inputLabel}>Select Your Country</Text>
+                  <TouchableOpacity
+                    style={styles.countrySelector}
+                    onPress={() => setIsCountryModalVisible(true)}
+                  >
+                    <Text style={styles.countryFlag}>{country.flag}</Text>
+                    <Text style={styles.countryText}>{country.name}</Text>
+                    <View style={styles.countrySelectorRight}>
+                      <MaterialIcons name="expand-more" size={24} color="#8e8e93" />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.inputGroup}>
+                  <Text style={styles.inputLabel}>Phone Number</Text>
+                  <View style={styles.phoneInputContainer}>
+                    <TouchableOpacity
+                      style={styles.countryCode}
+                      onPress={() => setIsCountryModalVisible(true)}
                     >
-                      Forgot Password
-                    </Text>
-                    <View className="w-full items-center mt-3">
-                      <TouchableOpacity className="h-14 w-36 bg-white rounded-3xl border justify-center items-center mt-4 opacity-100">
-                        <Text className="text-lg font-bold">Login</Text>
-                      </TouchableOpacity>
+                      <Text style={styles.countryCodeText}>{country.code}</Text>
+                      <MaterialIcons name="expand-more" size={18} color="#8e8e93" />
+                    </TouchableOpacity>
+                    
+                    <View style={[styles.inputWrapper, styles.phoneInput]}>
+                      <Ionicons name="call-outline" size={20} color="#8e8e93" style={styles.inputIcon} />
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Enter phone number"
+                        placeholderTextColor="#8e8e93"
+                        value={registerPhoneNum}
+                        onChangeText={setRegisterPhoneNum}
+                        keyboardType="phone-pad"
+                      />
                     </View>
-                  </>
-                ) : (
-                  <>
-                    <View className="h-28mt-5 justify-center mt-4 ">
-                      <Text className=" font-bold text-[18px] mb-2 ml-4">
-                        Select Your Contry
-                      </Text>
-                      <TouchableOpacity
-                        onPress={() => {
-                          setisOpenSelectCont(true);
-                        }}
-                        className="w-full h-16 bg-white rounded-3xl  items-center  justify-start text-[15px] pl-4 pr-4 border-[1px] flex-row "
-                      >
-                        <Text>
-                          {" "}
-                          {contry.flag || null} {contry.name || "Contry"}
-                        </Text>
-                        <View className="flex-1"></View>
-                        <MaterialIcons
-                          name="expand-more"
-                          size={24}
-                          color="black"
-                        />
-                      </TouchableOpacity>
-                      <Text className=" font-bold text-[18px] mt-4 ml-4" >Enter Your Phone Number</Text>
-                      <View className="h-20 justify-start items-end flex-row">
-                        <TouchableOpacity
-                          onPress={() => {
-                            setisOpenSelectCont(true);
-                          }}
-                          className="h-16 w-24 bg-white rounded-3xl  items-center  justify-center text-[15px] pl-4 pr-4 border-[1px] flex-row mr-1 "
-                        >
-                          <Text> {contry.code || null}</Text>
-                        </TouchableOpacity>
-                        <View className="flex-1" >
-                        <Input
-                          placeholder="Phone Number"
-                          setVAlue={setLoginPhoneNum}
-                          value={loginPhoneNum}
-                        /></View>
-                      </View>
-                    </View>
-                    <View className="w-full items-end mt-3">
-                      <TouchableOpacity className="h-14 w-14 bg-MainBG rounded-2xl border justify-center items-center mt-4">
-                        <AntDesign
-                          onPress={() => router.push("/verification")}
-                          name="arrowright"
-                          size={24}
-                          color="white"
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </>
-                )}
-              </View>
-            </View>
+                  </View>
+                </View>
+
+                <TouchableOpacity onPress={handleRegister}>
+                  <LinearGradient
+                    colors={['#6a11cb', '#2575fc']}
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>Continue</Text>
+                    <Ionicons name="arrow-forward" size={20} color="#fff" />
+                  </LinearGradient>
+                </TouchableOpacity>
+
+                <View style={styles.termsContainer}>
+                  <Text style={styles.termsText}>
+                    By continuing, you agree to our{' '}
+                    <Text style={styles.termsLink}>Terms of Service</Text>
+                    {' '}and{' '}
+                    <Text style={styles.termsLink}>Privacy Policy</Text>
+                  </Text>
+                </View>
+              </>
+            )}
           </View>
         </ScrollView>
-      </TouchableWithoutFeedback>
-      {isOpenSelectCont && (
-        <TouchableWithoutFeedback
-          onPress={() => {
-            setisOpenSelectCont(false);
-          }}
+      </KeyboardAvoidingView>
+
+      {/* Country Selection Modal */}
+      <Modal
+        visible={isCountryModalVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setIsCountryModalVisible(false)}
+      >
+        <TouchableOpacity
+          activeOpacity={1}
+          style={styles.modalOverlay}
+          onPress={() => setIsCountryModalVisible(false)}
         >
-          <View
-            style={{
-              backgroundColor: "rgba(0, 0, 0, 0.4)",
-              position: "absolute",
-              flex: 1,
-              width: "100%",
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <View className="h-4/6 bg-white w-4/5 rounded-2xl pt-1 pb-1">
+          <BlurView intensity={20} tint="dark" style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalTitle}>Select Country</Text>
+                <TouchableOpacity onPress={() => setIsCountryModalVisible(false)}>
+                  <Ionicons name="close-circle" size={28} color="#8e8e93" />
+                </TouchableOpacity>
+              </View>
+              
               <FlatList
                 data={countries}
                 keyExtractor={(item) => `${item.name}-${item.code}`}
+                showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
                   <TouchableOpacity
+                    style={styles.countryItem}
                     onPress={() => {
-                      setcontry(item);
-                      setisOpenSelectCont(false);
-                      setRegisterPhoneNum(item.code);
+                      setCountry(item);
+                      setIsCountryModalVisible(false);
                     }}
-                    className="flex-row items-center border-b border-gray-300 p-3"
                   >
-                    <Text className="text-xl mr-3">{item.flag}</Text>
-                    <Text className="text-lg text-gray-800">
-                      {item.name} ({item.code})
-                    </Text>
+                    <Text style={styles.countryItemFlag}>{item.flag}</Text>
+                    <View style={styles.countryItemInfo}>
+                      <Text style={styles.countryItemName}>{item.name}</Text>
+                      <Text style={styles.countryItemCode}>{item.code}</Text>
+                    </View>
+                    {country.code === item.code && (
+                      <Ionicons name="checkmark-circle" size={24} color="#6a11cb" />
+                    )}
                   </TouchableOpacity>
                 )}
               />
             </View>
-          </View>
-        </TouchableWithoutFeedback>
-      )}
-    </SafeAreaView>
+          </BlurView>
+        </TouchableOpacity>
+      </Modal>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#0f0f1e',
+  },
+  gradient: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+  },
+  keyboardView: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingBottom: 40,
+  },
+  logoSection: {
+    alignItems: 'center',
+    paddingTop: 80,
+    paddingBottom: 40,
+  },
+  logoContainer: {
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+    shadowColor: '#6a11cb',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
+    elevation: 8,
+  },
+  logoText: {
+    fontSize: 32,
+    fontWeight: '800',
+    color: '#fff',
+    marginBottom: 8,
+  },
+  logoSubtext: {
+    fontSize: 14,
+    color: '#8e8e93',
+    fontWeight: '500',
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    marginHorizontal: 20,
+    marginBottom: 32,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 16,
+    padding: 4,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  tab: {
+    flex: 1,
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  tabGradient: {
+    paddingVertical: 14,
+    alignItems: 'center',
+  },
+  tabActive: {
+    shadowColor: '#6a11cb',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  tabText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#8e8e93',
+  },
+  tabTextActive: {
+    color: '#fff',
+    fontWeight: '700',
+  },
+  formContainer: {
+    paddingHorizontal: 20,
+  },
+  inputGroup: {
+    marginBottom: 24,
+  },
+  inputLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#fff',
+    marginBottom: 10,
+    marginLeft: 4,
+  },
+  inputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    height: 56,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  inputIcon: {
+    marginRight: 12,
+  },
+  input: {
+    flex: 1,
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: '500',
+  },
+  forgotPassword: {
+    alignSelf: 'flex-end',
+    marginBottom: 32,
+    marginTop: -8,
+  },
+  forgotPasswordText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#6a11cb',
+  },
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 56,
+    borderRadius: 16,
+    shadowColor: '#6a11cb',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 8,
+    gap: 8,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#fff',
+  },
+  countrySelector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    height: 56,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  countryFlag: {
+    fontSize: 28,
+    marginRight: 12,
+  },
+  countryText: {
+    flex: 1,
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: '500',
+  },
+  countrySelectorRight: {
+    marginLeft: 'auto',
+  },
+  phoneInputContainer: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  countryCode: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    height: 56,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    gap: 4,
+  },
+  countryCodeText: {
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: '600',
+  },
+  phoneInput: {
+    flex: 1,
+  },
+  termsContainer: {
+    marginTop: 24,
+    paddingHorizontal: 8,
+  },
+  termsText: {
+    fontSize: 12,
+    color: '#8e8e93',
+    textAlign: 'center',
+    lineHeight: 18,
+  },
+  termsLink: {
+    color: '#6a11cb',
+    fontWeight: '600',
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  modalContent: {
+    backgroundColor: 'rgba(30, 30, 46, 0.95)',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    maxHeight: '70%',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#fff',
+  },
+  countryItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.05)',
+  },
+  countryItemFlag: {
+    fontSize: 28,
+    marginRight: 16,
+  },
+  countryItemInfo: {
+    flex: 1,
+  },
+  countryItemName: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#fff',
+    marginBottom: 2,
+  },
+  countryItemCode: {
+    fontSize: 13,
+    color: '#8e8e93',
+  },
+});
 
 export default AuthPage;
