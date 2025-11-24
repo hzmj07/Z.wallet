@@ -46,7 +46,6 @@ const AuthPage = () => {
   const handleLogin = () => {
     // Add your login logic here
         router.push("/(main)/home");
-
   };
 
   const handleRegister = () => {
